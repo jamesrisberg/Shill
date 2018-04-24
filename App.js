@@ -2,20 +2,29 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 
 import firebase from 'react-native-firebase';
+import { fetchCoinData } from './CoinMarketCapHandler';
 
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      coinData: []
       // firebase things?
     };
   }
 
   componentDidMount() {
     // firebase things?
+    console.log('testing if mounted')
+    fetchCoinData.call(this);
+
+
   }
 
   render() {
+    console.log('app state')
+
+    console.log(this.state);
     return (
       <ScrollView>
         <View style={styles.container}>
