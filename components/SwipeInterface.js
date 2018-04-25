@@ -5,15 +5,17 @@ import firebase from 'react-native-firebase';
 
 import CardSwiper from './CardSwiper';
 
+
 export default class SwipeInterface extends React.Component {
   constructor() {
     super();
     this.state = {
-      
+        
     };
   }
 
   componentDidMount() {
+    
     // firebase things?
   }
 
@@ -28,19 +30,7 @@ export default class SwipeInterface extends React.Component {
   render() {
     return (
         <View style={styles.Swiper}>
-            <CardSwiper/>
-            <Button 
-                title='Like'
-                onPress={() => {}}
-            >
-                Like
-            </Button>
-            <Button 
-                title='Dislike'
-                onPress={() => {}}
-            >
-                Dislike
-            </Button>
+            <CardSwiper />
         </View>
     )
   }
@@ -48,9 +38,7 @@ export default class SwipeInterface extends React.Component {
 
 const styles = StyleSheet.create({
     Swiper: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-      backgroundColor: '#ff0000',
+        flex: 1,
+        
     },
   });

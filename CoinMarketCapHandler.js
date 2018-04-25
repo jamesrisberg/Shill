@@ -3,8 +3,7 @@ import ApiClient from './ApiClient';
 export function fetchCoinData () {
         Promise.all([ApiClient.getExt('https://api.coinmarketcap.com/v1/ticker/?limit=2000'), ApiClient.getExt('https://s2.coinmarketcap.com/generated/search/quick_search.json')])
         .then((values) => {
-            console.log('values');
-            console.log(values)
+           
             var coinData = values[0].map((d, i) => {
                 return {
                     ...d,
@@ -12,8 +11,6 @@ export function fetchCoinData () {
                 }
             });
 
-            console.log('parsed coin data');
-            console.log(coinData)
 
             function shuffle(coinData) {
                 let currentIndex = coinData.length, tempValue, randomIndex;

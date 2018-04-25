@@ -6,15 +6,20 @@ import Swiper from 'react-native-deck-swiper';
 
 import Card from './Card';
 
-export default class CoinDetailView extends React.Component {
-    constructor() {
-        super();
-        this.state = {
+import { fetchCoinData } from '../CoinMarketCapHandler';
 
+export default class CoinDetailView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            coinData: []
         };
     }
 
     componentDidMount() {
+        fetchCoinData.call(this);
+        //let data = fetchCoinData();
+
         // firebase things?
     }
 
@@ -30,28 +35,45 @@ export default class CoinDetailView extends React.Component {
         console.log('Tapped');
     }
 
-    cardData = [{ name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},]
+    
 
     render() {
+        console.log('CoinDetailView state.coinData');
+        console.log(this.state.coinData);
         return (
-            <Swiper
-                cards={this.cardData}
-                renderCard={(card) => {
-                    return (
-                        <Card card={card}/>
-                    )
-                }}
-                onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onSwipedAll={() => {console.log('onSwipedAll')}}
-                cardIndex={0}
-                backgroundColor={'#4FD0E9'}
-                stackSize= {3}
-                verticalSwipe={false}>
-            </Swiper>
+            <View
+                style={styles.Swiper}
+            >
+                {
+                    this.state.coinData.length > 1 ?
+                        <Swiper
+                            cards={this.state.coinData}
+                            renderCard={(card) => {
+                                return (
+                                    <Card {...card}/>
+                                )
+                            }}
+                            onSwiped={(cardIndex) => {console.log(cardIndex)}}
+                            onSwipedAll={() => {console.log('onSwipedAll')}}
+                            cardIndex={0}
+                            backgroundColor={'#4FD0E9'}
+                            stackSize= {3}
+                            verticalSwipe={false}>
+                        </Swiper>
+                    :
+                        <View>
+                            <Text>Loading</Text>
+                        </View>
+                }
+            </View>
+
+           
         )
     }
 }
+
+const styles = StyleSheet.create({
+    Swiper: {
+       
+    },
+  });
