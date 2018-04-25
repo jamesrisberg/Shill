@@ -5,12 +5,13 @@ import firebase from 'react-native-firebase';
 import Swiper from 'react-native-deck-swiper';
 
 import Card from './Card';
-
+import Base from './Base';
 import { fetchCoinData } from '../CoinMarketCapHandler';
 
-export default class CoinDetailView extends React.Component {
+export default class CoinDetailView extends Base {
     constructor(props) {
         super(props);
+        this.autoBind('onSwipeLeft');
         this.state = {
             coinData: []
         };
@@ -55,6 +56,7 @@ export default class CoinDetailView extends React.Component {
                             }}
                             onSwiped={(cardIndex) => {console.log(cardIndex)}}
                             onSwipedAll={() => {console.log('onSwipedAll')}}
+                            onSwipedLeft={this.onSwipedLeft}
                             cardIndex={0}
                             backgroundColor={'#4FD0E9'}
                             stackSize= {3}
