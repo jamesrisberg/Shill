@@ -13,6 +13,8 @@
 #import <React/RCTRootView.h>
 #import <Firebase.h>
 
+@import TwitterKit;
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -33,6 +35,13 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+  NSLog(@"openURL:");
+  NSLog(url.description);
+  NSLog(options.description);
+  return [[Twitter sharedInstance] application:app openURL:url options:options];
 }
 
 @end
