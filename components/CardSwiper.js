@@ -8,6 +8,26 @@ import Card from './Card';
 import { sendSwipeData } from '../handlers/firebase';
 import { fetchCoinData } from '../CoinMarketCapHandler';
 
+// Coin Data object
+// {
+// 24h_volume_usd: "3757.53"
+// available_supply: "18938105.0"
+// id: "insanecoin-insn"
+// imgUrl: "https://s2.coinmarketcap.com/static/img/coins/128x128/260.png"
+// last_updated: "1524642856"
+// market_cap_usd: "951060.0"
+// max_supply: "30000000.0"
+// name: "InsaneCoin"
+// percent_change_1h: "-0.13"
+// percent_change_7d: "17.61" 
+// percent_change_24h: "22.94"
+// price_btc: "0.00000532"
+// price_usd: "0.0502194"
+// rank: "852"
+// symbol: "INSN"
+// total_supply: "19188105.0"
+// }
+
 export default class CoinDetailView extends React.Component {
     constructor(props) {
         super(props);
@@ -30,12 +50,12 @@ export default class CoinDetailView extends React.Component {
 
     onSwipedLeft(cardIndex) {
         console.log('Swiped Left');
-        sendSwipeData(this.cardData[cardIndex].id, 'left');
+        sendSwipeData(this.state.coinData[cardIndex].id, 'left');
     }
 
     onSwipedRight(cardIndex) {
         console.log('Swiped Right');
-        sendSwipeData(this.cardData[cardIndex].id, 'right');
+        sendSwipeData(this.state.coinData[cardIndex].id, 'right');
     }
 
     onTapCard(cardIndex) {
