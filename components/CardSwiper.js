@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity } from 'react-native';
 
 import Swiper from 'react-native-deck-swiper';
 
@@ -33,7 +33,7 @@ export default class CoinDetailView extends Base {
 
     constructor(props) {
         super(props);
-        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard');
+        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard', 'clickedLeft');
         this.state = {
             coinData: []
         };
@@ -60,31 +60,62 @@ export default class CoinDetailView extends Base {
     onTapCard(cardIndex) {
         console.log('Tapped');
     }
-
+    clickedLeft(){
+        this.swiper.swipeLeft
+    }
+    // swipeLeft = () => {
+    //     this.swiper.swipeLeft()
+    // };
     render() {
-        console.log('CoinDetailView state.coinData');
-        console.log(this.state.coinData);
+        
         return (
             <View
                 style={styles.Swiper}
             >
                 {
                     this.state.coinData.length > 1 ?
-                        <Swiper
-                            cards={this.state.coinData}
-                            renderCard={(card) => {
-                                return (
-                                    <Card {...card}/>
-                                )
-                            }}
-                            onSwipedLeft={this.onSwipedLeft}
-                            onSwipedRight={this.onSwipedRight}
-                            onTapCard={this.onTapCard}
-                            cardIndex={0}
-                            backgroundColor={'#4FD0E9'}
-                            stackSize= {3}
-                            verticalSwipe={false}>
-                        </Swiper>
+                        <View style={styles.main}>
+                            <Swiper
+                                cards={this.state.coinData}
+                                ref={swiper => {
+                                    this.swiper = swiper
+                                }}
+                                renderCard={(card) => {
+                                    return (
+                                        <Card {...card}/>
+                                    )
+                                }}
+                                backgroundColor={'#DCE5EA'}
+                                onSwipedLeft={this.onSwipedLeft}
+                                onSwipedRight={this.onSwipedRight}
+                                onTapCard={this.onTapCard}
+                                cardIndex={0}
+                                stackSize= {3}
+                                verticalSwipe={false}
+                                
+                            >
+                                
+                                
+                            </Swiper>
+                            <View style={styles.buttonsContainer}>
+                                <TouchableOpacity 
+                                    style={styles.buttonContainer}
+                                    onPress={this.clickedLeft}
+                                >
+                                    <Image 
+                                        source={require("../assets/Red_Candles.png")}
+                                        style={styles.images}
+                                    />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={styles.buttonContainer}>
+                                    <Image 
+                                        source={ require("../assets/Green_Candles.png")}
+                                        style={styles.images}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     :
                         <View>
                             <Text>Loading</Text>
@@ -98,7 +129,43 @@ export default class CoinDetailView extends Base {
 }
 
 const styles = StyleSheet.create({
-    Swiper: {
-       
+    main: {
+        height: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+
     },
+    buttonsContainer: {
+        marginTop: 25,
+        width: '90%',
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'flex-end',
+        position: 'absolute',
+        bottom:  10,
+    },
+    buttonContainer: {
+        width: 90,
+        height: 90,
+        borderRadius: 50,
+        backgroundColor: '#ffffff',
+        shadowColor: 'rgb(49, 53, 66)',
+        shadowOpacity: 0.5,
+        shadowRadius: 6,
+        shadowOffset: {
+            height: 4
+        },
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 30,
+    },
+    images: {
+        height: 60,
+        width: 60,
+
+    }
   });
