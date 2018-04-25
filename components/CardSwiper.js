@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
 
-import firebase from 'react-native-firebase';
 import Swiper from 'react-native-deck-swiper';
 
 import Card from './Card';
+
+import { sendSwipeData } from '../handlers/firebase';
 
 export default class CoinDetailView extends React.Component {
     constructor() {
@@ -12,29 +13,36 @@ export default class CoinDetailView extends React.Component {
         this.state = {
 
         };
+
+        this.onSwipedLeft = this.onSwipedLeft.bind(this);
+        this.onSwipedRight = this.onSwipedRight.bind(this);
+        this.onTapCard = this.onTapCard.bind(this);
     }
 
     componentDidMount() {
         // firebase things?
+
     }
 
-    onSwipeLeft(cardIndex) {
+    onSwipedLeft(cardIndex) {
         console.log('Swiped Left');
+        sendSwipeData(this.cardData[cardIndex].id, 'left');
     }
 
-    onSwipeRight(cardIndex) {
+    onSwipedRight(cardIndex) {
         console.log('Swiped Right');
+        sendSwipeData(this.cardData[cardIndex].id, 'right');
     }
 
     onTapCard(cardIndex) {
         console.log('Tapped');
     }
 
-    cardData = [{ name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},
-                { name: 'Verge', ticker: 'XVG', price: 0.89},]
+    cardData = [{ id: '1', name: 'Verge', ticker: 'XVG', price: 0.89},
+                { id: '2', name: 'Verge', ticker: 'XVG', price: 0.89},
+                { id: '3', name: 'Verge', ticker: 'XVG', price: 0.89},
+                { id: '4', name: 'Verge', ticker: 'XVG', price: 0.89},
+                { id: '5', name: 'Verge', ticker: 'XVG', price: 0.89},]
 
     render() {
         return (
@@ -45,8 +53,9 @@ export default class CoinDetailView extends React.Component {
                         <Card card={card}/>
                     )
                 }}
-                onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onSwipedAll={() => {console.log('onSwipedAll')}}
+                onSwipedLeft={this.onSwipedLeft}
+                onSwipedRight={this.onSwipedRight}
+                onTapCard={this.onTapCard}
                 cardIndex={0}
                 backgroundColor={'#4FD0E9'}
                 stackSize= {3}
