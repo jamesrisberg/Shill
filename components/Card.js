@@ -18,8 +18,10 @@ export default class Card extends React.Component {
   render() {
     return (
       <View style={styles.card}>
-        <Text>{this.props.card.name}</Text>
-        <Text>{this.props.card.ticker}</Text>
+      <View style={styles.topRow}>
+          <Image source={this.props.card.image} />
+          <Text>{this.props.card.name} ({this.props.card.ticker})</Text>
+      </View>
         <Text>{'$' + this.props.card.price}</Text>
       </View>
     )
@@ -29,8 +31,14 @@ export default class Card extends React.Component {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: '#ff0000',
   },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  
 });
