@@ -1,17 +1,18 @@
 import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
 
-import firebase from 'react-native-firebase';
 import Swiper from 'react-native-deck-swiper';
 
 import Card from './Card';
 import Base from './Base';
+
+import { sendSwipeData } from '../handlers/firebase';
 import { fetchCoinData } from '../CoinMarketCapHandler';
 
 export default class CoinDetailView extends Base {
     constructor(props) {
         super(props);
-        this.autoBind('onSwipeLeft');
+        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard');
         this.state = {
             coinData: []
         };
@@ -22,21 +23,22 @@ export default class CoinDetailView extends Base {
         //let data = fetchCoinData();
 
         // firebase things?
+
     }
 
-    onSwipeLeft(cardIndex) {
+    onSwipedLeft(cardIndex) {
         console.log('Swiped Left');
+        sendSwipeData(this.cardData[cardIndex].id, 'left');
     }
 
-    onSwipeRight(cardIndex) {
+    onSwipedRight(cardIndex) {
         console.log('Swiped Right');
+        sendSwipeData(this.cardData[cardIndex].id, 'right');
     }
 
     onTapCard(cardIndex) {
         console.log('Tapped');
     }
-
-    
 
     render() {
         console.log('CoinDetailView state.coinData');
@@ -54,9 +56,9 @@ export default class CoinDetailView extends Base {
                                     <Card {...card}/>
                                 )
                             }}
-                            onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                            onSwipedAll={() => {console.log('onSwipedAll')}}
                             onSwipedLeft={this.onSwipedLeft}
+                            onSwipedRight={this.onSwipedRight}
+                            onTapCard={this.onTapCard}
                             cardIndex={0}
                             backgroundColor={'#4FD0E9'}
                             stackSize= {3}
