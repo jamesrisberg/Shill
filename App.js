@@ -3,6 +3,8 @@ import {
     StyleSheet, 
     TouchableOpacity,
     View, 
+    Image,
+    Text,
     NativeModules 
 } from 'react-native';
 
@@ -101,10 +103,36 @@ export default class App extends React.Component {
         return (
             <View style={styles.container}>
                 {this.state.isAuthenticated ?
-                    //< Button title='Logout' onPress={this.logout} />
-                    < SwipeInterface />
+                    < TouchableOpacity 
+                        style={styles.logout} 
+                        onPress={this.logout} 
+                    >
+                        <Text>Logout</Text>
+                    </ TouchableOpacity >
+                    //< SwipeInterface />
                     : 
-                    < TouchableOpacity title='Login' onPress={this.login} />
+                    < View 
+                        style={styles.loginContainer}
+                    >
+                        < Image 
+                            source={require("./assets/Logo.png")}
+                            style={styles.logo}
+                        />
+                        < TouchableOpacity 
+                            style={styles.loginButtonContainer}
+                            onPress={this.login} 
+                        >
+                            <Text
+                                    style={styles.loginButtonText}
+                            >
+                                Login With Twitter
+                            </Text>
+                            < Image
+                                source={require("./assets/TwitterLogo.png")}
+                                style={styles.twitterLogo}
+                            />
+                        </ TouchableOpacity >
+                    </ View >
                 }
             </View>
         );
@@ -116,4 +144,32 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F2F6F9',
     },
+    logout: {
+        backgroundColor: '#ff0000',
+        height: '20%'
+    },
+    logo: {
+        flex: 0.5,
+        width: '60%',
+        resizeMode: 'contain'
+    },
+    loginContainer: {
+        height: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    loginButtonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    loginButtonText: {
+        fontSize: 20.0,
+    },
+    twitterLogo: {
+        resizeMode: 'contain',
+        height: 50,
+        width: 50,
+    }
 });
