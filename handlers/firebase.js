@@ -11,21 +11,16 @@ const config = {
 firebase.initializeApp(config);
 
 export const sendSwipeData = (coinID, direction) => {
-    console.log(auth.currentUser);
-
     db.collection('userData').doc(auth.currentUser.uid).collection('swipeData').doc(coinID).set({
         coin: coinID,
         direction: direction
     })
-    .then(function(docRef) {
-        console.log("Document written with ID: ");
-        console.log(docRef)
+    .then(() => {
+        updateAllSwipeData(coinID, direction);
     })
     .catch(function(error) {
         console.error("Error adding document: ", error);
     });
-
-    updateAllSwipeData(coinID, direction);
 };
 
 const updateAllSwipeData = (coinID, direction) => {

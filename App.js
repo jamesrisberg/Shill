@@ -1,8 +1,7 @@
 import React from 'react';
 import { 
     StyleSheet, 
-    Button,
-    Platform, 
+    TouchableOpacity,
     View, 
     NativeModules 
 } from 'react-native';
@@ -26,7 +25,6 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
-        // firebase things?
             isAuthenticated: false,
             user: null,
         };
@@ -37,7 +35,6 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        // firebase things?
         auth.onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ 
@@ -63,14 +60,10 @@ export default class App extends React.Component {
      
         RNTwitterSignIn.logIn()
         .then((loginData) => {
-            console.log('Twitter success')
-            console.log(loginData)
-            
             var accessToken = new firebase.auth.TwitterAuthProvider.credential(
                                                                 loginData.authToken,
                                                                 loginData.authTokenSecret
                                                             );
-                                                            console.log(accessToken)
             this.handleFirebaseLogin(accessToken);
         }).catch((error) => {
             console.log('Twitter failure')
@@ -79,11 +72,8 @@ export default class App extends React.Component {
     }
 
     handleFirebaseLogin(accessToken) {
-        console.log('Handle firebase called')
         auth.signInAndRetrieveDataWithCredential(accessToken)
             .then((data) => {
-                console.log('auth success')
-                console.log(data)
                 this.setState({ 
                     isAuthenticated: true,
                     user: data.user 
@@ -114,7 +104,7 @@ export default class App extends React.Component {
                     //< Button title='Logout' onPress={this.logout} />
                     < SwipeInterface />
                     : 
-                    < Button title='Login' onPress={this.login} />
+                    < TouchableOpacity title='Login' onPress={this.login} />
                 }
             </View>
         );
@@ -122,8 +112,8 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F2F6F9',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#F2F6F9',
+    },
 });
