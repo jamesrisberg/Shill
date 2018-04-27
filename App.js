@@ -19,6 +19,7 @@ import SwipeInterface from './components/SwipeInterface';
 if (__DEV__) {
     NativeModules.DevSettings.setIsDebuggingRemotely(true)
 }
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
 
@@ -123,6 +124,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f7fa',
+    backgroundColor: '#F2F6F9',
   },
 });
