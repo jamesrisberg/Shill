@@ -1,27 +1,31 @@
 import firebase from 'react-native-firebase'
+
 const config = {
-    apiKey: "AIzaSyDblTESEB1SbAVkpy2q39DI2OHphL2-Jxw",
-    authDomain: "fun-food-friends-eeec7.firebaseapp.com",
-    databaseURL: "https://fun-food-friends-eeec7.firebaseio.com",
-    projectId: "fun-food-friends-eeec7",
-    storageBucket: "fun-food-friends-eeec7.appspot.com",
-    messagingSenderId: "144750278413"
+    apiKey: "AIzaSyB-NltYRrLnqJLMk3kdd_2SepoBar7_kA4",
+    authDomain: "shill-dc796.firebaseapp.com",
+    databaseURL: "https://shill-dc796.firebaseio.com",
+    projectId: "shill-dc796",
+    storageBucket: "shill-dc796.appspot.com",
+    messagingSenderId: "745503473697"
 };
 firebase.initializeApp(config);
 
 export const sendSwipeData = (coinID, direction) => {
-    db.collection('userSwipeData').doc(coinID).set({
+    console.log(auth.currentUser);
+
+    db.collection('userData').doc(auth.currentUser.uid).collection('swipeData').doc(coinID).set({
         coin: coinID,
         direction: direction
     })
     .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
+        console.log("Document written with ID: ");
+        console.log(docRef)
     })
     .catch(function(error) {
         console.error("Error adding document: ", error);
     });
 
-    updateAllSwipeData();
+    updateAllSwipeData(coinID, direction);
 };
 
 const updateAllSwipeData = (coinID, direction) => {
@@ -29,62 +33,32 @@ const updateAllSwipeData = (coinID, direction) => {
 
     allSwipeData.get()
     .then(function(doc) {
+        var leftCount = direction == 'left' ? 1 : 0;
+        var rightCount = direction == 'right' ? 1 : 0;
+
         if (doc.exists) {
             console.log("Document data:", doc.data());
 
             if (direction == 'left') {
-                var newCount = doc.data().left + 1;
-                allSwipeData.set({
-                    left: newCount
-                })
-                .then(function() {
-                    console.log("Document successfully updated!");
-                })
-                .catch(function(error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                leftCount += doc.data().left;
+                rightCount = doc.data().right;
             } else {
-                var newCount = doc.data().right + 1;
-                allSwipeData.update({
-                    right: newCount
-                })
-                .then(function() {
-                    console.log("Document successfully updated!");
-                })
-                .catch(function(error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
-            }
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-
-            if (direction == 'left') {
-                allSwipeData.set({
-                    left: 1
-                })
-                .then(function() {
-                    console.log("Document successfully updated!");
-                })
-                .catch(function(error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
-            } else {
-                allSwipeData.update({
-                    right: 1
-                })
-                .then(function() {
-                    console.log("Document successfully updated!");
-                })
-                .catch(function(error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                leftCount = doc.data().left;
+                rightCount += doc.data().right;
             }
         }
+
+        allSwipeData.set({
+            left: leftCount,
+            right: rightCount
+        })
+        .then(function() {
+            console.log("Document successfully updated!");
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
     })
     .catch(function(error) {
         console.error("Error getting document: ", error);
@@ -92,7 +66,7 @@ const updateAllSwipeData = (coinID, direction) => {
 };
 
 export const getSwipeDataForCoin = (coinID) => {
-    db.collection('userSwipeData').doc(coinID).get().then((doc) => {
+    db.collection('allSwipeData').doc(coinID).get().then((doc) => {
         if (doc.exists) {
             console.log(`${doc.data()}`);
         } else {
@@ -109,6 +83,6 @@ export const getAllSwipeData = () => {
     });
 };
 
-export const db = firebase.firestore();
 export const auth = firebase.auth();
+export const db = firebase.firestore();
 export default firebase;
