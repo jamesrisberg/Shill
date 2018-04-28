@@ -49,19 +49,19 @@ export default class CoinDetailView extends Base {
 
     onSwipedLeft(cardIndex) {
         console.log('Swiped Left');
-        sendSwipeData(this.state.coinData[cardIndex].id, 'left');
+        //sendSwipeData(this.state.coinData[cardIndex].id, 'left');
     }
 
     onSwipedRight(cardIndex) {
         console.log('Swiped Right');
-        sendSwipeData(this.state.coinData[cardIndex].id, 'right');
+        //sendSwipeData(this.state.coinData[cardIndex].id, 'right');
     }
 
     onTapCard(cardIndex) {
         console.log('Tapped');
     }
     clickedLeft(){
-        this.swiper.swipeLeft
+        //this.swiper.swipeLeft
     }
     // swipeLeft = () => {
     //     this.swiper.swipeLeft()
