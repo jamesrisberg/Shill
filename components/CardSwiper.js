@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { 
+    StyleSheet, 
+    Image, 
+    Text, 
+    View, 
+    TouchableOpacity 
+} from 'react-native';
 
 import Swiper from 'react-native-deck-swiper';
 
@@ -30,21 +36,16 @@ export default class CoinDetailView extends Base {
 // total_supply: "19188105.0"
 // }
 
-
     constructor(props) {
         super(props);
-        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard', 'clickedLeft');
+        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard', 'clickedLeft', 'clickedRight');
         this.state = {
-            coinData: []
+            coinData: [],
         };
     }
 
     componentDidMount() {
         fetchCoinData.call(this);
-        //let data = fetchCoinData();
-
-        // firebase things?
-
     }
 
     onSwipedLeft(cardIndex) {
@@ -60,29 +61,33 @@ export default class CoinDetailView extends Base {
     onTapCard(cardIndex) {
         console.log('Tapped');
     }
+
     clickedLeft(){
-        //this.swiper.swipeLeft
+
+        this.swiper.swipeLeft()
     }
-    // swipeLeft = () => {
-    //     this.swiper.swipeLeft()
-    // };
+
+    clickedRight(){
+        this.swiper.swipeRight()
+    }
+
     render() {
         
         return (
-            <View
+            < View
                 style={styles.Swiper}
             >
                 {
                     this.state.coinData.length > 1 ?
-                        <View style={styles.main}>
-                            <Swiper
+                        < View style={styles.main}>
+                            < Swiper
                                 cards={this.state.coinData}
                                 ref={swiper => {
                                     this.swiper = swiper
                                 }}
                                 renderCard={(card) => {
                                     return (
-                                        <Card {...card}/>
+                                        < Card {...card} />
                                     )
                                 }}
                                 backgroundColor={'#DCE5EA'}
@@ -94,36 +99,35 @@ export default class CoinDetailView extends Base {
                                 verticalSwipe={false}
                                 
                             >
-                                
-                                
-                            </Swiper>
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity 
+                            </ Swiper >
+                            < View style={styles.buttonsContainer}>
+                                < TouchableOpacity 
                                     style={styles.buttonContainer}
                                     onPress={this.clickedLeft}
                                 >
-                                    <Image 
+                                    < Image 
                                         source={require("../assets/Red_Candles.png")}
                                         style={styles.images}
                                     />
-                                </TouchableOpacity>
+                                </ TouchableOpacity >
 
-                                <TouchableOpacity style={styles.buttonContainer}>
-                                    <Image 
+                                < TouchableOpacity 
+                                    style={styles.buttonContainer}
+                                    onPress={this.clickedRight}
+                                >
+                                    < Image 
                                         source={ require("../assets/Green_Candles.png")}
                                         style={styles.images}
                                     />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                                </ TouchableOpacity >
+                            </ View>
+                        </ View>
                     :
-                        <View>
-                            <Text>Loading</Text>
-                        </View>
+                        < View >
+                            < Text >Loading</ Text >
+                        </ View >
                 }
-            </View>
-
-           
+            </ View >
         )
     }
 }
@@ -166,6 +170,5 @@ const styles = StyleSheet.create({
     images: {
         height: 60,
         width: 60,
-
     }
   });
