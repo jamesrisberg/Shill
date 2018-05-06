@@ -4,48 +4,54 @@ import {
     Image, 
     Text, 
     View, 
-    TouchableOpacity 
+    TouchableOpacity,
+    Animated
 } from 'react-native';
 
 import Swiper from 'react-native-deck-swiper';
+import { connect } from 'react-redux';
 
 import Card from './Card';
 import Base from './Base';
 
 import { sendSwipeData } from '../handlers/firebase';
-import { fetchCoinData } from '../CoinMarketCapHandler';
+import { fetchCoins } from '../reducers/coin';
 
-export default class CoinDetailView extends Base {
-// Coin Data object
-// {
-// 24h_volume_usd: "3757.53"
-// available_supply: "18938105.0"
-// id: "insanecoin-insn"
-// imgUrl: "https://s2.coinmarketcap.com/static/img/coins/128x128/260.png"
-// last_updated: "1524642856"
-// market_cap_usd: "951060.0"
-// max_supply: "30000000.0"
-// name: "InsaneCoin"
-// percent_change_1h: "-0.13"
-// percent_change_7d: "17.61" 
-// percent_change_24h: "22.94"
-// price_btc: "0.00000532"
-// price_usd: "0.0502194"
-// rank: "852"
-// symbol: "INSN"
-// total_supply: "19188105.0"
-// }
+import { colors, defaults, fonts, mixins, variables } from '../styles';
+
+const arr = [];
+
+for (var i = 0; i < 500; i++) {
+  arr.push(i)
+}
+
+class CardSwiper extends Base {
+
 
     constructor(props) {
         super(props);
-        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard', 'clickedLeft', 'clickedRight');
-        this.state = {
-            coinData: [],
-        };
+        this.autoBind('onSwipedLeft', 'onSwipedRight', 'onTapCard', 'clickedLeft', 'clickedRight', 'animate');
+        this.animatedValue = [];
+        arr.forEach((value) => {
+            this.animatedValue[value] = new Animated.Value(0)
+        })
     }
-
+    animate () {
+        const animations = arr.map((item) => {
+            return Animated.timing(
+                this.animatedValue[item],
+                {
+                  toValue: 1,
+                  duration: 10
+                }
+            )
+        })
+        Animated.sequence(animations).start()
+    }
     componentDidMount() {
-        fetchCoinData.call(this);
+        //fetchCoinData.call(this);
+        this.props.fetchCoins();
+        this.animate()
     }
 
     onSwipedLeft(cardIndex) {
@@ -63,7 +69,6 @@ export default class CoinDetailView extends Base {
     }
 
     clickedLeft(){
-
         this.swiper.swipeLeft()
     }
 
@@ -73,22 +78,24 @@ export default class CoinDetailView extends Base {
 
     render() {
         
+        const animations = arr.map((a, i) => {
+            return <Animated.View key={i} style={{opacity: this.animatedValue[a], height: 50, width: 50, backgroundColor: '#10254E', marginLeft: 3, marginTop: 3}} />
+        })
+
         return (
-            < View
+            <View
                 style={styles.Swiper}
             >
                 {
-                    this.state.coinData.length > 1 ?
-                        < View style={styles.main}>
-                            < Swiper
-                                cards={this.state.coinData}
+                    this.props.coins.length > 1 ?
+                        <View style={styles.main}>
+                            <Swiper
+                                cards={this.props.coins}
                                 ref={swiper => {
                                     this.swiper = swiper
                                 }}
                                 renderCard={(card) => {
-                                    return (
-                                        < Card {...card} />
-                                    )
+                                    return  ( <Card {...card} /> ); 
                                 }}
                                 backgroundColor={'#DCE5EA'}
                                 onSwipedLeft={this.onSwipedLeft}
@@ -99,56 +106,61 @@ export default class CoinDetailView extends Base {
                                 verticalSwipe={false}
                                 
                             >
-                            </ Swiper >
-                            < View style={styles.buttonsContainer}>
-                                < TouchableOpacity 
+                            </Swiper>
+                            <View style={styles.buttonsContainer}>
+                                <TouchableOpacity 
                                     style={styles.buttonContainer}
                                     onPress={this.clickedLeft}
                                 >
-                                    < Image 
+                                    <Image 
                                         source={require("../assets/Red_Candles.png")}
                                         style={styles.images}
                                     />
-                                </ TouchableOpacity >
+                                </TouchableOpacity>
 
-                                < TouchableOpacity 
+                                <TouchableOpacity 
                                     style={styles.buttonContainer}
                                     onPress={this.clickedRight}
                                 >
-                                    < Image 
+                                    <Image 
                                         source={ require("../assets/Green_Candles.png")}
                                         style={styles.images}
                                     />
-                                </ TouchableOpacity >
-                            </ View>
-                        </ View>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     :
-                        < View >
-                            < Text >Loading</ Text >
-                        </ View >
+                        <View style={styles.loading} >
+                            {animations}
+                        </View>
                 }
-            </ View >
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
     main: {
-        height: '100%',
+        ...defaults.page,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
 
     },
+    loading: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
     buttonsContainer: {
         marginTop: 25,
-        width: '90%',
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'flex-end',
         position: 'absolute',
+        zIndex: 10,
         bottom:  10,
     },
     buttonContainer: {
@@ -172,3 +184,17 @@ const styles = StyleSheet.create({
         width: 60,
     }
   });
+
+
+function mapStateToProps({coin}) {
+    return {
+        ...coin
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchCoins: () => dispatch(fetchCoins()),
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CardSwiper);

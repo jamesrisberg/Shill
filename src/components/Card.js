@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
 
 import firebase from 'react-native-firebase';
+import Base from './Base';
 
-export default class Card extends React.Component {
-    constructor() {
-        super();
+export default class Card extends Base {
+    constructor(props) {
+        super(props);
+        this.autoBind('handlePress');
         this.state = {
+            selected: false
         };
     }
 
     componentDidMount() {
     // firebase things?
     }
-
+    handlePress() {
+        // console.log('card was clicked');
+        // console.log(this.props);
+        // this.setState({
+        //     selected: !this.state.selected
+        // });
+    }
     render() {
         
 
@@ -26,48 +35,48 @@ export default class Card extends React.Component {
             price_usd,
         } = this.props;
 
+        
 
         return (
-            <View style={styles.card}>
-                <View>
-                    <Image 
-                        source={{uri: imgUrl}}
-                        style={styles.image}
-                    />
-                </View>
-                
-                <Text style={styles.ticker}>{symbol}</Text>
-                <Text style={styles.title}>{name}</Text>
-                <View style={styles.divider}/>
-                <View style={styles.coinDataContainer}>
-
-                    <View style={styles.rowContainer}>
-                        <View style={styles.secondStatsContainer}>
-                            
-                            <Text style={styles.secondStatsTitle} >Market Cap</Text>
-                            <Text  style={styles.secondStats} >$ {market_cap_usd}</Text>s
-                        </View>
-                        <View style={styles.secondStatsContainer}>
-                            
-                            <Text style={styles.secondStatsTitle}>Prince in BTC</Text>
-                            <Text style={styles.secondStats}>{ price_btc }</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.coinDataContainer}>
-                        <Text style={styles.secondStatsTitle}>Price</Text>
-                        <Text style={styles.price}>{'$' +price_usd}</Text>
+            <TouchableWithoutFeedback 
+                onPress={() => this.handlePress()}
+            >
+                <View
+                    style={[styles.card]}
+                >
+                    <View>
+                        <Image 
+                            source={{uri: imgUrl}}
+                            style={styles.image}
+                        />
                     </View>
                     
+                    <Text style={styles.ticker}>{symbol}</Text>
+                    <Text style={styles.title}>{name}</Text>
+                    <View style={styles.divider}/>
+                    <View style={styles.coinDataContainer}>
 
-                   
+                        <View style={styles.rowContainer}>
+                            <View style={styles.secondStatsContainer}>
+                                
+                                <Text style={styles.secondStatsTitle} >Market Cap</Text>
+                                <Text  style={styles.secondStats} >$ {market_cap_usd}</Text>s
+                            </View>
+                            <View style={styles.secondStatsContainer}>
+                                
+                                <Text style={styles.secondStatsTitle}>Prince in BTC</Text>
+                                <Text style={styles.secondStats}>{ price_btc }</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.coinDataContainer}>
+                            <Text style={styles.secondStatsTitle}>Price</Text>
+                            <Text style={styles.price}>{'$' +price_usd}</Text>
+                        </View>
+                        
+                    </View>
                 </View>
-
-                
-                
-                
-               
-            </View>
+            </TouchableWithoutFeedback>
         )
     }
 }
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,
-        //padding: 15,
+       
     },
     rowContainer:  {
         width: '100%',
@@ -94,7 +103,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     card: {
-        height: '90%',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff',

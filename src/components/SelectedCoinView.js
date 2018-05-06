@@ -4,14 +4,10 @@ import {
     View, 
 } from 'react-native';
 
-import CardSwiper from './CardSwiper';
 
-export default class SwipeInterface extends React.Component {
+export default class SelectedCoinView extends React.Component {
     constructor() {
         super();
-        this.state = {
-        
-        };
     }
 
     componentDidMount() {
@@ -20,9 +16,9 @@ export default class SwipeInterface extends React.Component {
 
     render() {
         return (
-            < View style={styles.Swiper} >
-                < CardSwiper />
-            </ View >
+            <View style={styles.Swiper}>
+                
+            </View >
         )
     }
 }

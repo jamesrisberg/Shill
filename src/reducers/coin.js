@@ -1,6 +1,34 @@
-import ApiClient from './ApiClient';
+import ApiClient from '../scripts/ApiClient';
 
-export function fetchCoinData () {
+const initialState = {
+    coins: [],
+    selectedCoin: {
+
+    }
+};
+
+
+export default function reducer(state = initialState, action) {
+    switch (action.type) {
+        case RECEIVE_COINS:
+            return {
+                ...state,
+                coins: action.coins
+            };
+        default:
+            return state;
+    }
+}
+
+
+export function receiveCoins(coins) {
+    return {
+        type: RECEIVE_COINS, 
+        coins
+    }
+}
+export function fetchCoins() {
+    return (dispatch) => {
         Promise.all([ApiClient.getExt('https://api.coinmarketcap.com/v1/ticker/?limit=2000'), ApiClient.getExt('https://s2.coinmarketcap.com/generated/search/quick_search.json')])
         .then((values) => {
            
@@ -26,11 +54,11 @@ export function fetchCoinData () {
 
                 return coinData
             }
-            //resolve(coinData);
-            this.setState({
-                coinData: shuffle(coinData)
-            }) 
+            
+
+            dispatch(receiveCoins(shuffle(coinData)));
         })
-        
+    }
 }
 
+const RECEIVE_COINS = 'coins/RECEIVE_COINS';
