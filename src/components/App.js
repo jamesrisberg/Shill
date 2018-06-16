@@ -8,7 +8,7 @@ import {
     NativeModules 
 } from 'react-native';
 
-import { Router, Scene, Actions, Modal, ActionConst } from 'react-native-router-flux';
+import { Router, Scene, Actions, Modal, ActionConst, Stack } from 'react-native-router-flux';
 import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -17,6 +17,9 @@ import firebase from 'react-native-firebase'
 
 import { auth } from '../handlers/firebase';
 import { twitter } from '../handlers/config';
+
+import { colors, defaults, fonts, mixins, variables } from '../styles';
+
 
 const RNTwitterSignIn = NativeModules.RNTwitterSignIn;
 
@@ -31,6 +34,7 @@ const store = compose(
 )(createStore)(reducers);
 
 import CardSwiper from './CardSwiper';
+import SelectedCoinView from './SelectedCoinView';
 
 if (__DEV__) {
     NativeModules.DevSettings.setIsDebuggingRemotely(true)
@@ -128,20 +132,32 @@ class App extends React.Component {
                         component={CardSwiper}
                         title={'CardSwiper'}
                     />
+                    <Stack
+                        back
+                        backTitle="Back"
+                        key="coinDetail"
+                        duration={0}
+                        navTransparent
+                    >
+                        <Scene 
+                            key='selectedCoinView'
+                            component={SelectedCoinView}
+                            title='Shill'
+                        />
+                    </Stack>
                 </Scene>
             </ReduxRouter>
         );
-       
-                
-                    
-        
     }
 }
 
 const styles = StyleSheet.create({
+    root: {
+        
+    },
     container: {
         flex: 1,
-        backgroundColor: '#F2F6F9',
+        backgroundColor: '#001434',
     },
     logout: {
         backgroundColor: '#ff0000',

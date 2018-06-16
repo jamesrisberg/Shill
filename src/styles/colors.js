@@ -6,8 +6,16 @@ export default {
     grey: '#7C8B9E',
     charcoal: '#3C5073',
     purple: '#C866F0',
-    blue: '#00BAFF',
+    
     yellow: '#F5D76E',
     red: '#D52930',
-    green: '#00C662'
+    green: '#00C662',
+
+
+
+    darkBlue: '#000D24',
+    blue: '#102957',
+    pink: '#F54379',
+    green: '#32B093',
+    skyBlue: '#6EBAE6',
 }

@@ -79,55 +79,63 @@ class CardSwiper extends Base {
     render() {
         
         const animations = arr.map((a, i) => {
-            return <Animated.View key={i} style={{opacity: this.animatedValue[a], height: 50, width: 50, backgroundColor: '#10254E', marginLeft: 3, marginTop: 3}} />
+            return <Animated.View key={i} style={{opacity: this.animatedValue[a], height: 50, width: 50, backgroundColor: i % 2 == 0 ? colors.blue : colors.white, marginLeft: 3, marginRight: 3, marginTop: 3, borderRadius: 100, }} />
         })
 
+        console.log('CardSwiper');
+        console.log(this.props);
+
+        console.log(colors)
         return (
             <View
-                style={styles.Swiper}
+                style={styles.main}
             >
                 {
                     this.props.coins.length > 1 ?
                         <View style={styles.main}>
-                            <Swiper
-                                cards={this.props.coins}
-                                ref={swiper => {
-                                    this.swiper = swiper
-                                }}
-                                renderCard={(card) => {
-                                    return  ( <Card {...card} /> ); 
-                                }}
-                                backgroundColor={'#DCE5EA'}
-                                onSwipedLeft={this.onSwipedLeft}
-                                onSwipedRight={this.onSwipedRight}
-                                onTapCard={this.onTapCard}
-                                cardIndex={0}
-                                stackSize= {3}
-                                verticalSwipe={false}
-                                
-                            >
-                            </Swiper>
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity 
-                                    style={styles.buttonContainer}
-                                    onPress={this.clickedLeft}
-                                >
-                                    <Image 
-                                        source={require("../assets/Red_Candles.png")}
-                                        style={styles.images}
-                                    />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity 
-                                    style={styles.buttonContainer}
-                                    onPress={this.clickedRight}
-                                >
-                                    <Image 
-                                        source={ require("../assets/Green_Candles.png")}
-                                        style={styles.images}
-                                    />
-                                </TouchableOpacity>
+                            <View style={styles.swipperContainer}>
+                                <Swiper
+                                    cards={this.props.coins}
+                                    ref={swiper => {
+                                        this.swiper = swiper
+                                    }}
+                                    renderCard={(card) => {
+                                        return  ( <Card {...card} /> ); 
+                                    }}
+                                    backgroundColor={colors.darkBlue}
+                                    onSwipedLeft={this.onSwipedLeft}
+                                    onSwipedRight={this.onSwipedRight}
+                                    onTapCard={this.onTapCard}
+                                    cardIndex={0}
+                                    stackSize= {3}
+                                    verticalSwipe={false}
+                                    
+                                />
                             </View>
+                            {
+                                // <View style={styles.buttonsContainer}>
+                                //     <TouchableOpacity 
+                                //         style={styles.buttonContainer}
+                                //         onPress={this.clickedLeft}
+                                //     >
+                                //         <Image 
+                                //             source={require("../assets/Red_Candles.png")}
+                                //             style={styles.images}
+                                //         />
+                                //     </TouchableOpacity>
+
+                                //     <TouchableOpacity 
+                                //         style={styles.buttonContainer}
+                                //         onPress={this.clickedRight}
+                                //     >
+                                //         <Image 
+                                //             source={ require("../assets/Green_Candles.png")}
+                                //             style={styles.images}
+                                //         />
+                                //     </TouchableOpacity>
+                                // </View>
+                            }
+                            
                         </View>
                     :
                         <View style={styles.loading} >
@@ -141,33 +149,36 @@ class CardSwiper extends Base {
 
 const styles = StyleSheet.create({
     main: {
-        ...defaults.page,
+        height: variables.SCREEN_HEIGHT,
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
+        backgroundColor: colors.darkBlue,
     },
     loading: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
+
     buttonsContainer: {
-        marginTop: 25,
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf: 'flex-end',
-        position: 'absolute',
-        zIndex: 10,
-        bottom:  10,
+        height: variables.SCREEN_HEIGHT * .2,
+    },
+    swipperContainer: {
+        width: variables.SCREEN_WIDTH,
+        height: variables.SCREEN_HEIGHT * .9,
+        
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     buttonContainer: {
         width: 90,
         height: 90,
+
         borderRadius: 50,
-        backgroundColor: '#ffffff',
+        
         shadowColor: 'rgb(49, 53, 66)',
         shadowOpacity: 0.5,
         shadowRadius: 6,

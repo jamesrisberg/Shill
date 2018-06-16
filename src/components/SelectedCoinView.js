@@ -2,10 +2,13 @@ import React from 'react';
 import { 
     StyleSheet, 
     View, 
+    Text
 } from 'react-native';
+import { connect } from 'react-redux';
 
+import Base from './Base';
 
-export default class SelectedCoinView extends React.Component {
+class SelectedCoinView extends Base {
     constructor() {
         super();
     }
@@ -15,10 +18,14 @@ export default class SelectedCoinView extends React.Component {
     }
 
     render() {
+
+        console.log('SelectedCoinView');
+        console.log(this.props);
+
         return (
             <View style={styles.Swiper}>
-                
-            </View >
+                <Text>SelectedCoinView</Text>
+            </View>
         )
     }
 }
@@ -28,3 +35,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+
+
+function mapStateToProps({coin}) {
+    return {
+        selectedCoin: coin.selectedCoin
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        toggleSelectedCoin: (coin) => dispatch(toggleSelectedCoin(coin)),
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedCoinView);

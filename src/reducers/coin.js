@@ -15,6 +15,13 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 coins: action.coins
             };
+        case TOGGLE_SELECTED_COIN:
+            console.log('should update selected coin');
+            console.log(action.coin);
+            return {
+                ...state,
+                selectedCoin: action.coin
+            }
         default:
             return state;
     }
@@ -27,6 +34,18 @@ export function receiveCoins(coins) {
         coins
     }
 }
+
+export function toggleSelectedCoin(coin) {
+    return {
+        type: TOGGLE_SELECTED_COIN,
+        coin
+    }
+}
+
+export function fetchCoinGraphData(param) {
+    
+};
+
 export function fetchCoins() {
     return (dispatch) => {
         Promise.all([ApiClient.getExt('https://api.coinmarketcap.com/v1/ticker/?limit=2000'), ApiClient.getExt('https://s2.coinmarketcap.com/generated/search/quick_search.json')])
@@ -62,3 +81,4 @@ export function fetchCoins() {
 }
 
 const RECEIVE_COINS = 'coins/RECEIVE_COINS';
+const TOGGLE_SELECTED_COIN = 'coins/TOGGLE_SELECTED_COIN';
