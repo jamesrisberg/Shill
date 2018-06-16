@@ -21,6 +21,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "change-case": "^3.0.2",
     "fbjs": "^0.8.16",
     "firebase": "^4.13.1",
     "npm": "^5.8.0",

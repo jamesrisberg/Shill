@@ -27,7 +27,7 @@ class SelectedCoinView extends Base {
         console.log(this.props);
         return (
             <View style={styles.root}>
-               
+                
                 <Text>SelectedCoinView</Text>
                 <SelectedCoinDD />
             </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     root: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         width: '100%',
         height: '100%',
         backgroundColor: colors.darkBlue
