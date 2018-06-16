@@ -22,13 +22,15 @@ class Card extends Base {
     // firebase things?
     }
     handlePress() {
-        this.props.toggleSelectedCoin(this.props);
+        var coinData = { ...this.props };
+        delete coinData.toggleSelectedCoin;
+
+        this.props.toggleSelectedCoin(coinData);
         Actions.coinDetail();
         
     }
     render() {
         
-        console.log(this.props)
         const {
             imgUrl,
             market_cap_usd,

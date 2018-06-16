@@ -4,7 +4,11 @@ const initialState = {
     coins: [],
     selectedCoin: {
 
-    }
+    },
+    market_cap_by_available_supply: [],
+    price_btc: [],
+    price_usd: [],
+    volume_usd: [],
 };
 
 
@@ -21,6 +25,14 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 selectedCoin: action.coin
+            }
+        case RECEIVE_COIN_DATA:
+            return {
+                ...state,
+                market_cap_by_available_supply: action.data.market_cap_by_available_supply,
+                price_btc: action.data.price_btc,
+                price_usd: action.data.price_usd,
+                volume_usd: action.data.volume_usd,
             }
         default:
             return state;
@@ -42,8 +54,21 @@ export function toggleSelectedCoin(coin) {
     }
 }
 
-export function fetchCoinGraphData(param) {
-    
+export function receiveCoinData(data) {
+    return {
+        type: RECEIVE_COIN_DATA,
+        data
+    }
+}
+export function fetchCoinGraphData(name) {
+    return (dispatch) => {
+        ApiClient.getExt(`https://graphs2.coinmarketcap.com/currencies/${name}/`)
+        .then((values) => {
+            console.log('fetchCoinGraphData res')
+            console.log(values)
+            dispatch(receiveCoinData(values));
+        })
+    }
 };
 
 export function fetchCoins() {
@@ -80,5 +105,6 @@ export function fetchCoins() {
     }
 }
 
+const RECEIVE_COIN_DATA = 'coins/RECEIVE_COIN_DATA';
 const RECEIVE_COINS = 'coins/RECEIVE_COINS';
 const TOGGLE_SELECTED_COIN = 'coins/TOGGLE_SELECTED_COIN';

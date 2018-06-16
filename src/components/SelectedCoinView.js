@@ -7,6 +7,11 @@ import {
 import { connect } from 'react-redux';
 
 import Base from './Base';
+import Graph from './Graph';
+import SelectedCoinDD from './SelectedCoinDD';
+
+import { fetchCoinGraphData } from '../reducers/coin';
+import { colors, defaults, fonts, mixins, variables } from '../styles';
 
 class SelectedCoinView extends Base {
     constructor() {
@@ -14,38 +19,44 @@ class SelectedCoinView extends Base {
     }
 
     componentDidMount() {
-
+        this.props.fetchCoinGraphData(this.props.selectedCoin.id)
     }
 
     render() {
-
-        console.log('SelectedCoinView');
+        console.log('SelectedCoinView')
         console.log(this.props);
-
         return (
-            <View style={styles.Swiper}>
+            <View style={styles.root}>
+               
                 <Text>SelectedCoinView</Text>
+                <SelectedCoinDD />
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    Swiper: {
-        flex: 1,
+    root: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.darkBlue
     },
 });
 
 
 function mapStateToProps({coin}) {
     return {
-        selectedCoin: coin.selectedCoin
+        ...coin
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         toggleSelectedCoin: (coin) => dispatch(toggleSelectedCoin(coin)),
+        fetchCoinGraphData: (name) => dispatch(fetchCoinGraphData(name)),
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SelectedCoinView);

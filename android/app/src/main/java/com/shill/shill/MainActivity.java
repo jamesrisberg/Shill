@@ -1,6 +1,9 @@
 package com.shill.shill;
 
 import com.facebook.react.ReactActivity;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
 
 public class MainActivity extends ReactActivity {
 

@@ -82,10 +82,7 @@ class CardSwiper extends Base {
             return <Animated.View key={i} style={{opacity: this.animatedValue[a], height: 50, width: 50, backgroundColor: i % 2 == 0 ? colors.blue : colors.white, marginLeft: 3, marginRight: 3, marginTop: 3, borderRadius: 100, }} />
         })
 
-        console.log('CardSwiper');
-        console.log(this.props);
 
-        console.log(colors)
         return (
             <View
                 style={styles.main}

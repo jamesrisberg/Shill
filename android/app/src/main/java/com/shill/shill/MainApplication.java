@@ -3,6 +3,7 @@ package com.shill.shill;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import me.jhen.devsettings.DevSettingsPackage;
 import com.goldenowl.twittersignin.TwitterSigninPackage;
 import com.facebook.react.ReactNativeHost;
@@ -41,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new SvgPackage(),
             new DevSettingsPackage(),
         new TwitterSigninPackage(),
         new RNFirebasePackage(),

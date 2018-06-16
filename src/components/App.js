@@ -121,7 +121,9 @@ class App extends React.Component {
     render() {
 
         return (
-            <ReduxRouter>
+            <ReduxRouter
+                navigationBarStyle={{ backgroundColor: colors.blue}}
+            >
                 <Scene
                     key='root'
                     sceneStyle={styles.root}
@@ -133,16 +135,17 @@ class App extends React.Component {
                         title={'CardSwiper'}
                     />
                     <Stack
+
                         back
                         backTitle="Back"
                         key="coinDetail"
                         duration={0}
-                        navTransparent
+                        navigationBarStyle={{ backgroundColor: colors.blue}}
                     >
                         <Scene 
                             key='selectedCoinView'
                             component={SelectedCoinView}
-                            title='Shill'
+                            title={this.props.coinName}
                         />
                     </Stack>
                 </Scene>
@@ -189,7 +192,13 @@ const styles = StyleSheet.create({
     }
 });
 
-const ReduxApp = connect()(App);
+
+function mapStateToProps({coin}) {
+    return {
+        coinName: coin.selectedCoin.id
+    };
+}
+const ReduxApp = connect(mapStateToProps)(App);
 
 export default function AppWrapper() {
     return (
